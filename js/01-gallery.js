@@ -17,6 +17,7 @@ function galleryCreate() {
     />
   </a>
 </div>`;
+            
     }).join('');
 };
 
@@ -26,13 +27,27 @@ const clickImage = (e) => {
     if (e.target.classList.contains('gallery')) return;
     const source = e.target.dataset.source;
 
-    const instance = basicLightbox.create(`<img src="${source}" width="800" heigth="600">`)
+    const instance = basicLightbox.create(`<img src="${source}" width="800" heigth="600">`,
+        {
+        onShow: instance => {
+        document.addEventListener('keydown', (e) => { if (e.code === 'Escape') instance.close() });
+        },
+        onClose: instance => {
+        document.removeEventListener('keydown', e);
+        },
+        }
+    )
+    
     instance.show();
-
-    document.addEventListener('keydown', (e) => {
-        if (e.code === 'Escape') instance.close()
-    });
+    
+    // document.addEventListener('keydown', (e) => {
+    //     if (e.code === 'Escape') instance.close()
+    // });
 }
+
+
+
+
 galleryBoxEl.addEventListener('click', clickImage)
 
 console.log(galleryItems);
