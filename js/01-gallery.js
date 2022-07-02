@@ -30,23 +30,31 @@ const clickImage = (e) => {
     const instance = basicLightbox.create(`<img src="${source}" width="800" heigth="600">`,
         {
         onShow: instance => {
-        document.addEventListener('keydown', (e) => { if (e.code === 'Escape') instance.close() });
+        addListener();
         },
         onClose: instance => {
-        document.removeEventListener('keydown', e);
+        removeListener();
         },
         }
     )
     
     instance.show();
     
+    function addListener() {
+    document.addEventListener('keydown', onEscapeBtn);
+    }
+
+    function onEscapeBtn(e) {
+    if (e.code === 'Escape') instance.close()
+    }
+
+    function removeListener() {
+    document.removeEventListener('keydown', onEscapeBtn);
+    }
     // document.addEventListener('keydown', (e) => {
     //     if (e.code === 'Escape') instance.close()
     // });
 }
-
-
-
 
 galleryBoxEl.addEventListener('click', clickImage)
 
